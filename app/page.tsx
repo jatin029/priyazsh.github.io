@@ -34,9 +34,9 @@ const projects = [
   },
   {
     title: "Prasad Mundkar Portfolio",
-    description: ".",
+    description: "Built a responsive minimalist portfolio for a client using NextJS and TailwindCSS with the best SEO practices.",
     technologies: "NextJS",
-    sourceUrl: "",
+    sourceUrl: "#",
     liveUrl: "https://oyepriyansh.pages.dev/eg44322ae",
   },
 ];
