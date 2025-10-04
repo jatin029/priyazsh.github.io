@@ -12,9 +12,9 @@ import { getPostBySlug, getAllPostSlugs } from '../../../lib/posts';
 import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '../../../lib/structured-data';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
