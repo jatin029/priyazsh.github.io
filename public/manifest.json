@@ -1,0 +1,17 @@
+{
+  "name": "Priyansh Prajapat Portfolio",
+  "short_name": "Priyansh",
+  "description": "Portfolio of Priyansh Prajapat - Full Stack Developer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "/oyepriyansh.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}
