@@ -14,6 +14,7 @@ import { getPostBySlug, getAllPostSlugs } from '../../../lib/posts';
 import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '../../../lib/structured-data';
 import HeadingAnchor from '../../components/HeadingAnchor';
 import ScrollToAnchor from '../../components/ScrollToAnchor';
+import SocialShare from '../../components/SocialShare';
 
 interface PageProps {
   params: Promise<{
@@ -216,15 +217,22 @@ export default async function BlogPost({ params }: PageProps) {
                 <span>{post.readTime}</span>
               </div>
               
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span 
-                    key={tag}
-                    className="px-3 py-1 text-xs bg-purple-600/20 text-purple-300 rounded-full border border-purple-600/30"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              <div className="flex items-center gap-4">
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span 
+                      key={tag}
+                      className="px-3 py-1 text-xs bg-purple-600/20 text-purple-300 rounded-full border border-purple-600/30"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                
+                <SocialShare 
+                  title={post.title}
+                  url={`https://oyepriyansh.github.io/blog/${slug}`}
+                />
               </div>
             </div>
           </header>
@@ -234,7 +242,7 @@ export default async function BlogPost({ params }: PageProps) {
           </div>
         </article>
 
-        <footer className="mt-12 pt-6 border-t border-white/10 text-center">
+        <footer className="mt-12 pt-6 border-t border-white/10 text-center relative z-10">
           <Footer />
         </footer>
       </div>

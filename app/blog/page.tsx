@@ -8,6 +8,7 @@ import {
 import BlogPostCard from '../components/BlogPostCard';
 import { getAllPosts } from '../../lib/posts';
 import { generateBlogJsonLd, generateBreadcrumbJsonLd } from '../../lib/structured-data';
+import { cabin } from '../utils/fonts';
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -58,7 +59,7 @@ export default async function Blog() {
         </div>
 
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-8 flex items-center">
+          <h1 className={`text-3xl md:text-4xl font-bold mb-8 flex items-center ${cabin.className}`}>
             <span className="text-gray-400 mr-2 font-normal">~/</span>Blog
           </h1>
           
@@ -93,7 +94,7 @@ export default async function Blog() {
           </div>
         )} */}
 
-        <footer className="mt-12 pt-6 border-t border-white/10 text-center">
+        <footer className="mt-12 pt-6 border-t border-white/10 text-center relative z-10">
           <Footer />
         </footer>
       </div>
