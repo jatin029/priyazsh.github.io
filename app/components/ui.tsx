@@ -12,11 +12,12 @@ export const buttonStyles = {
 };
 
 export const textStyles = {
-  description: `text-gray-200 text-xl ${epilogue.className}`,
-  heading: `text-2xl md:text-1xl font-bold md:mb-1 ${cabin.className}`,
-  username: `text-gray-400`,
-  sectionHeading: "text-xl font-semibold mb-4",
-  paragraph: `text-gray-300 ${epilogue.className}`,
+  description: `text-gray-200 text-xl leading-relaxed ${epilogue.className}`,
+  heading: `text-3xl md:text-4xl font-bold md:mb-1 tracking-tight ${cabin.className}`,
+  username: `text-gray-400 text-sm tracking-wider`,
+  sectionHeading: `text-2xl font-bold mb-6 tracking-tight ${cabin.className}`,
+  paragraph: `text-gray-300 leading-relaxed ${epilogue.className}`,
+  subheading: `text-lg font-semibold text-gray-200 ${cabin.className}`,
 };
 
 // Common motion variants for consistent animations
@@ -37,8 +38,8 @@ export const motionVariants = {
 };
 
 export const containerStyles = {
-  main: "bg-neutral-950",
-  content: "md:w-[510px] md:mx-auto mx-auto md:mt-10 text-white p-4",
+  main: "bg-neutral-950 relative",
+  content: "md:w-[510px] md:mx-auto mx-auto md:mt-10 text-white p-4 relative z-10",
   card: "bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg",
   wideContent: "w-full max-w-4xl",
 };
@@ -91,9 +92,11 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <p className={`text-neutral-400 text-sm ${epilogue.className}`}>
-      © {currentYear} Priyansh Prajapat. All rights reserved.
-    </p>
+    <div className="py-4">
+      <p className={`text-gray-400 text-sm ${epilogue.className} leading-relaxed`}>
+        © {currentYear} Priyansh Prajapat. All rights reserved.
+      </p>
+    </div>
   );
 }
 

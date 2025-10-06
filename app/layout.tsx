@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import ScrollToTop from "./components/ScrollToTop";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://oyepriyansh.github.io"),
@@ -78,6 +79,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <div id="root">{children}</div>
+        <ScrollToTop />
         <GoogleAnalytics gaId="G-LM2B0KC5LB" />
       </body>
     </html>

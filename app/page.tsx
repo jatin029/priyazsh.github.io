@@ -15,7 +15,8 @@ import {
   BlogIcon,
   Footer,
 } from "./components/ui";
-import { generatePersonJsonLd, generateWebsiteJsonLd } from "../lib/structured-data";
+import { generatePersonJsonLd, generateWebsiteJsonLd } from "@/lib/structured-data";
+import ParticleBackground from "./components/ParticleBackground";
 
 const projects = [
   {
@@ -51,6 +52,7 @@ export default function Home() {
 
   return (
     <>
+      <ParticleBackground />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -61,8 +63,17 @@ export default function Home() {
       />
       <div className={containerStyles.main}>
         <div className={containerStyles.content}>
-        <div className="flex items-start mb-6">
-          <div className="rounded-full overflow-hidden w-15 h-15 md:w-20 md:h-20">
+        <motion.div 
+          className="flex items-start mb-6"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <motion.div 
+            className="rounded-full overflow-hidden w-15 h-15 md:w-20 md:h-20 ring-2 ring-white/10 hover:ring-cyan-400/50 transition-all duration-300"
+            whileHover={{ scale: 1.05, rotate: 3 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <Image
               alt="Priyansh Prajapat"
               src={"/oyepriyansh.webp"}
@@ -70,48 +81,94 @@ export default function Home() {
               height={128}
               style={{ objectFit: "cover" }}
             />
-          </div>
+          </motion.div>
 
-          <div className="ml-4">
+          <motion.div 
+            className="ml-4"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          >
             <h1 className={textStyles.heading}>Priyansh Prajapat</h1>
             <p className={`${textStyles.username} ${kodeMono.className}`}>
               aka @oyepriyansh
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <p className={`mb-4 ${textStyles.description}`}>
+        <motion.p 
+          className={`mb-4 ${textStyles.description}`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+        >
           I&apos;m Priyansh, 21 year old self taught developer from India, I
           enjoy programming and exploring technology.
-        </p>
+        </motion.p>
 
-        <div className="mb-6 flex items-center flex-wrap">
+        <motion.div 
+          className="mb-6 flex items-center flex-wrap"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+        >
           <p className={`mr-2 text-gray-200 text-base ${epilogue.className}`}>
             building stuff with
           </p>
-          {technologies.map((tech) => (
-            <div
+          {technologies.map((tech, index) => (
+            <motion.div
               key={tech}
-              className={`${containerStyles.card} px-2 py-0.5 flex items-center mr-1.5 mb-1.5 hover:bg-gray-800/30 transition-all shadow-sm`}
+              className={`${containerStyles.card} px-2 py-0.5 flex items-center mr-1.5 mb-1.5 hover:bg-gray-800/30 transition-all shadow-sm cursor-default`}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.3, 
+                delay: 0.8 + (index * 0.1), 
+                ease: "backOut" 
+              }}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
               <TechSpan>{tech}</TechSpan>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        <Socials />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
+        >
+          <Socials />
+        </motion.div>
 
-        <div className="projects mt-8">
+        <motion.div 
+          className="projects mt-8"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.4, ease: "easeOut" }}
+        >
           <h2 className={`${textStyles.sectionHeading} flex items-center`}>
             <span className="text-gray-400 mr-2 font-normal">~/</span>Projects
           </h2>
 
           <div className="grid gap-4">
-            {projects.map((project) => (
-              <ProjectCard key={project.title} {...project} />
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: 1.6 + (index * 0.1), 
+                  ease: "easeOut" 
+                }}
+              >
+                <ProjectCard {...project} />
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         <div className="mt-12 mb-4">
           <h2 className={`${textStyles.sectionHeading} flex items-center`}>
@@ -134,11 +191,9 @@ export default function Home() {
           </div>
         </div>
 
-        <footer className="mt-12 pt-6 border-t border-white/10 text-center">
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Footer />
-
-            <div className="flex items-center gap-4">
+        <footer className="mt-16 pt-8 border-t border-white/10 text-center">
+          <div className="flex flex-col items-center justify-center gap-6">
+            <div className="flex items-center gap-6">
               <motion.a
                 href="/blog"
                 className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors"
@@ -159,6 +214,8 @@ export default function Home() {
                 View Resume
               </motion.a>
             </div>
+            
+            <Footer />
           </div>
         </footer>
       </div>

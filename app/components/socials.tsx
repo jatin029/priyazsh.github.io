@@ -11,7 +11,7 @@ interface SocialLink {
 }
 
 export default function Socials() {
-    const iconSize = 25;
+    const iconSize = 24;
     
     const socialLinks: SocialLink[] = [
         {
