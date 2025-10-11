@@ -17,7 +17,7 @@ function extractFirstImage(content: string): string | null {
   const markdownMatch = content.match(markdownImageRegex);
   
   if (markdownMatch && markdownMatch[1]) {
-    let imageUrl = markdownMatch[1].trim();
+    const imageUrl = markdownMatch[1].trim();
     return normalizeImageUrl(imageUrl);
   }
   
@@ -25,7 +25,7 @@ function extractFirstImage(content: string): string | null {
   const htmlMatch = content.match(htmlImageRegex);
   
   if (htmlMatch && htmlMatch[1]) {
-    let imageUrl = htmlMatch[1].trim();
+    const imageUrl = htmlMatch[1].trim();
     return normalizeImageUrl(imageUrl);
   }
   
@@ -111,7 +111,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       content,
       image,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }
