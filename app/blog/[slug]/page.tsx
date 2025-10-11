@@ -36,6 +36,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const publishedTime = new Date(post.date).toISOString();
   const modifiedTime = new Date(post.date).toISOString();
+  
+  const ogImage = post.image || '/oyepriyansh.webp';
 
   return {
     title: post.title,
@@ -53,8 +55,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       tags: post.tags,
       images: [
         {
-          url: '/oyepriyansh.webp',
-          width: 630,
+          url: ogImage,
+          width: 1200,
           height: 630,
           alt: post.title,
         }
@@ -64,6 +66,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: post.title,
       description: post.excerpt,
       creator: '@oyepriyansh',
+      images: [ogImage],
     },
     alternates: {
       canonical: `https://oyepriyansh.github.io/blog/${slug}`,

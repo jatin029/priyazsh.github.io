@@ -11,6 +11,39 @@ function calculateReadTime(content: string): string {
   return `${minutes} min read`;
 }
 
+// Extract the first image from markdown content
+function extractFirstImage(content: string): string | null {
+  const markdownImageRegex = /!\[.*?\]\((.*?)\)/;
+  const markdownMatch = content.match(markdownImageRegex);
+  
+  if (markdownMatch && markdownMatch[1]) {
+    let imageUrl = markdownMatch[1].trim();
+    return normalizeImageUrl(imageUrl);
+  }
+  
+  const htmlImageRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/i;
+  const htmlMatch = content.match(htmlImageRegex);
+  
+  if (htmlMatch && htmlMatch[1]) {
+    let imageUrl = htmlMatch[1].trim();
+    return normalizeImageUrl(imageUrl);
+  }
+  
+  return null;
+}
+
+function normalizeImageUrl(imageUrl: string): string {
+  if (imageUrl.startsWith('http')) {
+    return imageUrl;
+  }
+  
+  if (imageUrl.startsWith('/')) {
+    return imageUrl;
+  }
+  
+  return `/${imageUrl}`;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -19,6 +52,7 @@ export interface BlogPost {
   readTime: string;
   tags: string[];
   content: string;
+  image?: string;
 }
 
 export interface BlogPostMetadata {
@@ -28,6 +62,7 @@ export interface BlogPostMetadata {
   date: string;
   readTime: string;
   tags: string[];
+  image?: string;
 }
 
 export function getAllPosts(): BlogPostMetadata[] {
@@ -41,6 +76,7 @@ export function getAllPosts(): BlogPostMetadata[] {
       const { data, content } = matter(fileContents);
 
       const readTime = data.readTime || calculateReadTime(content);
+      const image = data.image || extractFirstImage(content);
 
       return {
         slug,
@@ -49,6 +85,7 @@ export function getAllPosts(): BlogPostMetadata[] {
         date: data.date,
         readTime,
         tags: data.tags || [],
+        image,
       };
     });
 
@@ -62,6 +99,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     const { data, content } = matter(fileContents);
 
     const readTime = data.readTime || calculateReadTime(content);
+    const image = data.image || extractFirstImage(content);
 
     return {
       slug,
@@ -71,6 +109,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       readTime,
       tags: data.tags || [],
       content,
+      image,
     };
   } catch (error) {
     return null;
