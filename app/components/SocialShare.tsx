@@ -33,7 +33,10 @@ export default function SocialShare({ title, url }: SocialShareProps) {
     {
       name: 'X.com',
       icon: LuTwitter,
-      action: () => window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank'),
+      action: () => {
+        const tweetText = `${title} ${url}`;
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+      },
       color: 'from-gray-800 to-black'
     },
     {
@@ -45,10 +48,10 @@ export default function SocialShare({ title, url }: SocialShareProps) {
   ];
 
   return (
-    <div className="relative">
+    <div className="relative z-40">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg hover:shadow-xl transition-shadow duration-300"
+        className="p-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Share this post"
@@ -72,7 +75,7 @@ export default function SocialShare({ title, url }: SocialShareProps) {
         className={`
           absolute top-full mt-2 right-0 flex flex-col gap-2 p-3 
           rounded-xl bg-white/10 backdrop-blur-md border border-white/20 
-          shadow-lg ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}
+          shadow-lg z-50 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}
         `}
       >
         {shareLinks.map((link, index) => (
@@ -83,7 +86,7 @@ export default function SocialShare({ title, url }: SocialShareProps) {
               flex items-center gap-3 px-4 py-2 rounded-lg 
               bg-gradient-to-r ${link.color} text-white 
               hover:shadow-lg transition-shadow duration-300
-              min-w-[140px]
+              min-w-[140px] cursor-pointer relative z-10
             `}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
