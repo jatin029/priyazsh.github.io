@@ -14,6 +14,7 @@ import HeadingAnchor from '../../components/HeadingAnchor';
 import ScrollToAnchor from '../../components/ScrollToAnchor';
 import SocialShare from '../../components/SocialShare';
 import CodeBlock from '../../components/CodeBlock';
+import CommentSection from '../../components/CommentSection';
 
 interface PageProps {
   params: Promise<{
@@ -188,6 +189,14 @@ export default async function BlogPost({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className={containerStyles.main}>
       <div className="mx-auto max-w-3xl px-4 mt-10 text-white">
         <div className="flex items-center justify-between mb-6">
@@ -232,7 +241,8 @@ export default async function BlogPost({ params }: PageProps) {
           <div className="prose prose-invert max-w-none">
             <MDXRemote source={post.content} components={mdxComponents} />
           </div>
-        </article>
+  </article>
+  <CommentSection slug={slug} />
 
         <footer className="mt-12 pt-6 border-t border-white/10 text-center relative z-10">
           <Footer />
