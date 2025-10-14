@@ -18,6 +18,7 @@ import {
 } from "./components/Ui";
 import { generatePersonJsonLd, generateWebsiteJsonLd } from "@/lib/structured-data";
 import ParticleBackground from "./components/ParticleBackground";
+import Age from "./components/Age";
 
 const projects = [
   {
@@ -103,7 +104,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
         >
-          I&apos;m Priyansh, 21 year old self taught developer from India, I
+          I&apos;m Priyansh, <Age/> years old self taught developer from India, I
           enjoy programming and exploring technology.
         </motion.p>
 
