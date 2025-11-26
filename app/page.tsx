@@ -34,7 +34,7 @@ const projects = [
     description:
       "A platform to list your developer profile and showcase your skills to the world. Connect with other developers and build your network.",
     technologies: "JavaScript",
-    sourceUrl: "https://github.com/oyepriyansh/DevProfiles",
+    sourceUrl: "https://github.com/priyanzsh/DevProfiles",
     liveUrl: "https://devprofiles.is-a.software",
   },
   {
@@ -93,7 +93,7 @@ export default function Home() {
           >
             <h1 className={textStyles.heading}>Priyansh Prajapat</h1>
             <p className={`${textStyles.username} ${kodeMono.className}`}>
-              aka @oyepriyansh
+              aka @priyanzsh
             </p>
           </motion.div>
         </motion.div>
@@ -177,9 +177,9 @@ export default function Home() {
             </p>
 
             <div className="flex items-center mt-4">
-              <GradientButton href="mailto:priyanshprajapat@duck.com">
+              <GradientButton href="mailto:priyanzsh@hotmail.com">
                 <MailIcon />
-                priyanshprajapat@duck.com
+                priyanzsh@hotmail.com
               </GradientButton>
             </div>
           </div>
