@@ -1,14 +1,22 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from 'next'
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-static'
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = 'https://priyanzsh.github.io'
+
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/private/', '/_next/', '/api/'],
+      disallow: [
+        '/private/',
+        '/api/',
+        '/_next/',
+        '/.*',
+      ],
     },
-    sitemap: 'https://oyepriyansh.github.io/sitemap.xml',
-  };
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
+  }
 }

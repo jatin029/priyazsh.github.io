@@ -1,128 +1,65 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import fs from 'fs'
+import path from 'path'
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+// Ensure this runs at build time for static generation
+const isServer = typeof window === 'undefined'
 
-function calculateReadTime(content: string): string {
-  const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return `${minutes} min read`;
+interface Post {
+  slug: string
+  date: string
+  title: string
 }
 
-// Extract the first image from markdown content
-function extractFirstImage(content: string): string | null {
-  const markdownImageRegex = /!\[.*?\]\((.*?)\)/;
-  const markdownMatch = content.match(markdownImageRegex);
-  
-  if (markdownMatch && markdownMatch[1]) {
-    const imageUrl = markdownMatch[1].trim();
-    return normalizeImageUrl(imageUrl);
+function parseFrontmatter(fileContent: string) {
+  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)/
+  const match = fileContent.match(frontmatterRegex)
+
+  if (!match) {
+    return null
   }
-  
-  const htmlImageRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/i;
-  const htmlMatch = content.match(htmlImageRegex);
-  
-  if (htmlMatch && htmlMatch[1]) {
-    const imageUrl = htmlMatch[1].trim();
-    return normalizeImageUrl(imageUrl);
-  }
-  
-  return null;
+
+  const frontmatterText = match[1]
+  const content = match[2]
+
+  const frontmatter: any = {}
+  frontmatterText.split('\n').forEach((line) => {
+    const [key, ...valueParts] = line.split(':')
+    if (key && valueParts.length > 0) {
+      const value = valueParts.join(':').trim()
+      frontmatter[key.trim()] = value.replace(/^["']|["']$/g, '')
+    }
+  })
+
+  return { frontmatter, content }
 }
 
-function normalizeImageUrl(imageUrl: string): string {
-  if (imageUrl.startsWith('http')) {
-    return imageUrl;
-  }
-  
-  if (imageUrl.startsWith('/')) {
-    return imageUrl;
-  }
-  
-  return `/${imageUrl}`;
-}
-
-export interface BlogPost {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  content: string;
-  image?: string;
-}
-
-export interface BlogPostMetadata {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  image?: string;
-}
-
-export function getAllPosts(): BlogPostMetadata[] {
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames
-    .filter((name) => name.endsWith('.mdx'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '');
-      const fullPath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data, content } = matter(fileContents);
-
-      const readTime = data.readTime || calculateReadTime(content);
-      const image = data.image || extractFirstImage(content);
-
-      return {
-        slug,
-        title: data.title,
-        excerpt: data.excerpt,
-        date: data.date,
-        readTime,
-        tags: data.tags || [],
-        image,
-      };
-    });
-
-  return allPostsData.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1));
-}
-
-export function getPostBySlug(slug: string): BlogPost | null {
+export function getAllPosts(): Post[] {
   try {
-    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
+    const postsDirectory = path.join(process.cwd(), 'posts')
+    const filenames = fs.readdirSync(postsDirectory)
+    const posts: Post[] = []
 
-    const readTime = data.readTime || calculateReadTime(content);
-    const image = data.image || extractFirstImage(content);
+    for (const filename of filenames) {
+      if (filename.endsWith('.mdx')) {
+        const filePath = path.join(postsDirectory, filename)
+        const fileContent = fs.readFileSync(filePath, 'utf8')
+        
+        const parsed = parseFrontmatter(fileContent)
+        if (parsed && parsed.frontmatter) {
+          posts.push({
+            slug: filename.replace('.mdx', ''),
+            date: parsed.frontmatter.date || new Date().toISOString(),
+            title: parsed.frontmatter.title || 'Untitled',
+          })
+        }
+      }
+    }
 
-    return {
-      slug,
-      title: data.title,
-      excerpt: data.excerpt,
-      date: data.date,
-      readTime,
-      tags: data.tags || [],
-      content,
-      image,
-    };
-  } catch {
-    return null;
+    return posts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
+  } catch (error) {
+    console.error('Error reading posts:', error)
+    return []
   }
-}
-
-export function getAllPostSlugs() {
-  const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames
-    .filter((name) => name.endsWith('.mdx'))
-    .map((fileName) => {
-      return {
-        slug: fileName.replace(/\.mdx$/, ''),
-      };
-    });
 }
