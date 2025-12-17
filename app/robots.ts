@@ -13,7 +13,6 @@ export default function robots(): MetadataRoute.Robots {
         '/private/',
         '/api/',
         '/_next/',
-        '/.*',
       ],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
