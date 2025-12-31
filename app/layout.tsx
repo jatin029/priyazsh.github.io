@@ -41,7 +41,7 @@ export const metadata: Metadata = {
       { rel: "android-chrome", url: "/favicon/android-chrome-512x512.png", sizes: "512x512" },
     ],
   },
-  manifest: "/favicon/site.webmanifest",
+  manifest: "/manifest.json",
   alternates: {
     canonical: "https://priyazsh.github.io",
   },
