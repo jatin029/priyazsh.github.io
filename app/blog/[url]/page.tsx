@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LuCalendar, LuClock, LuTag, LuArrowLeft } from "react-icons/lu";
 import { Metadata } from "next";
 import Footer from "@/app/components/Footer";
+import Comments from "@/app/components/Comments";
 
 export const dynamic = 'force-static';
 
@@ -285,6 +286,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
           dangerouslySetInnerHTML={{ __html: htmlContent }} 
         />
       </article>
+      <Comments slug={url} />
       <Footer />
     </div>
   );
